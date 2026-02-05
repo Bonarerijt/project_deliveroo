@@ -251,3 +251,43 @@ def admin_update_parcel(
         email_service.send_location_update(user.email, parcel.id, update_data.present_location)
     
     return parcel
+
+
+@router.get("/{parcel_id}/route", response_model=MapRoute)
+def get_parcel_route(
+    parcel_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    parcel = db.query(Parcel).filter(Parcel.id == parcel_id).first()
+    
+    if not parcel:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Parcel not found"
+        )
+    
+    # Users can only see their own routes unless they're admin
+    if parcel.user_id != current_user.id and not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this route"
+        )
+    
+    origin = (parcel.pickup_lat, parcel.pickup_lng)
+    destination = (parcel.destination_lat, parcel.destination_lng)
+    
+    distance_info = maps_service.calculate_distance_matrix(origin, destination)
+    polyline = maps_service.get_route_polyline(origin, destination)
+    
+    if not distance_info:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Could not calculate route"
+        )
+    
+    return {
+        "distance": distance_info['distance']['text'],
+        "duration": distance_info['duration']['text'],
+        "polyline": polyline or ""
+    }
