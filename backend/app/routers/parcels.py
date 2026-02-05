@@ -175,3 +175,37 @@ def update_parcel_destination(
     db.commit()
     db.refresh(parcel)
     return parcel
+
+
+@router.put("/{parcel_id}/cancel", response_model=ParcelResponse)
+def cancel_parcel(
+    parcel_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    parcel = db.query(Parcel).filter(Parcel.id == parcel_id).first()
+    
+    if not parcel:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Parcel not found"
+        )
+    
+    # Only parcel owner can cancel
+    if parcel.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to cancel this parcel"
+        )
+    
+    # Can't cancel if already delivered
+    if parcel.status == 'delivered':
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot cancel delivered parcel"
+        )
+    
+    parcel.status = 'cancelled'
+    db.commit()
+    db.refresh(parcel)
+    return parcel
