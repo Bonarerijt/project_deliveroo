@@ -38,3 +38,7 @@ class Parcel(Base):
     quote_amount = Column(Float, nullable=False)
     status = Column(Enum(ParcelStatus), default=ParcelStatus.pending, nullable=False)
     present_location = Column(String, nullable=True)
+
+    # Calculated fields
+    distance_km = Column(Float, nullable=True)
+    duration_mins = Column(Integer, nullable=True)
