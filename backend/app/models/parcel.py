@@ -21,3 +21,8 @@ class Parcel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+
+    # Addresses
+    pickup_address = Column(String, nullable=False)
+    destination_address = Column(String, nullable=False)
