@@ -22,3 +22,6 @@ class ParcelBase(BaseModel):
     destination_lat: float
     destination_lng: float
     weight_category: WeightCategory
+
+class ParcelCreate(ParcelBase):
+    pass
