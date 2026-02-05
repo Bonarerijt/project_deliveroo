@@ -42,3 +42,7 @@ class Parcel(Base):
     # Calculated fields
     distance_km = Column(Float, nullable=True)
     duration_mins = Column(Integer, nullable=True)
+
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
