@@ -46,3 +46,8 @@ class ParcelResponse(ParcelBase):
     
     class Config:
         from_attributes = True
+
+class MapRoute(BaseModel):
+    distance: str
+    duration: str
+    polyline: str
