@@ -9,3 +9,8 @@ class ParcelStatus(enum.Enum):
     in_transit = "in_transit" 
     delivered = "delivered"
     cancelled = "cancelled"
+
+class WeightCategory(enum.Enum):
+    small = "small"
+    medium = "medium"
+    large = "large"
