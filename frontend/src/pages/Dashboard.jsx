@@ -13,8 +13,9 @@ import {
 import {
   Add as AddIcon,
   LocalShipping as TruckIcon,
-  Dashboard as DashboardIcon,
-  TrendingUp as TrendingIcon,
+  CheckCircle as DeliveredIcon,
+  LocalShipping as InTransitIcon,
+  Schedule as PendingIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
@@ -74,6 +75,7 @@ const Dashboard = () => {
     { name: '3 Weeks Ago', parcels: Math.floor(totalParcels * 0.1) },
   ];
 
+  // Fixed stats order: Total Parcels, Delivered, In Transit, Pending
   const stats = [
     {
       title: 'Total Parcels',
@@ -85,21 +87,21 @@ const Dashboard = () => {
     {
       title: 'Delivered',
       value: statusCounts.delivered,
-      icon: <DashboardIcon sx={{ fontSize: 40 }} />,
+      icon: <DeliveredIcon sx={{ fontSize: 40 }} />,
       color: '#00C853',
       change: '+8%',
     },
     {
       title: 'In Transit',
       value: statusCounts.in_transit,
-      icon: <TrendingIcon sx={{ fontSize: 40 }} />,
+      icon: <InTransitIcon sx={{ fontSize: 40 }} />,
       color: '#2196F3',
       change: '+15%',
     },
     {
       title: 'Pending',
       value: statusCounts.pending,
-      icon: <AddIcon sx={{ fontSize: 40 }} />,
+      icon: <PendingIcon sx={{ fontSize: 40 }} />,
       color: '#FF9800',
       change: '-5%',
     },
@@ -149,7 +151,7 @@ const Dashboard = () => {
           </Box>
         </motion.div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Fixed order: Total, Delivered, In Transit, Pending */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           {stats.map((stat, index) => (
             <Grid item xs={12} sm={6} md={3} key={stat.title}>
@@ -162,6 +164,7 @@ const Dashboard = () => {
                   sx={{
                     background: `linear-gradient(135deg, ${alpha(stat.color, 0.1)} 0%, ${alpha(stat.color, 0.05)} 100%)`,
                     border: `1px solid ${alpha(stat.color, 0.2)}`,
+                    height: '100%',
                   }}
                 >
                   <CardContent>
@@ -340,3 +343,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

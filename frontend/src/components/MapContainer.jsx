@@ -106,16 +106,20 @@ export default function MapContainer({
     }
   }, [pickupAddress, destinationAddress, pickupLat, pickupLng, destLat, destLng]);
 
+  // Filter out invalid coordinates (0, 0 is not a valid Nairobi coordinate)
+  const validPickupCoords = pickupCoords && pickupCoords.lat !== 0 && pickupCoords.lng !== 0 ? pickupCoords : null;
+  const validDestinationCoords = destinationCoords && destinationCoords.lat !== 0 && destinationCoords.lng !== 0 ? destinationCoords : null;
+
   // Calculate map center and zoom
   const getMapCenter = () => {
-    if (pickupCoords && destinationCoords) {
+    if (validPickupCoords && validDestinationCoords) {
       return {
-        lat: (pickupCoords.lat + destinationCoords.lat) / 2,
-        lng: (pickupCoords.lng + destinationCoords.lng) / 2
+        lat: (validPickupCoords.lat + validDestinationCoords.lat) / 2,
+        lng: (validPickupCoords.lng + validDestinationCoords.lng) / 2
       };
     }
-    if (pickupCoords) return pickupCoords;
-    if (destinationCoords) return destinationCoords;
+    if (validPickupCoords) return validPickupCoords;
+    if (validDestinationCoords) return validDestinationCoords;
     return defaultCenter;
   };
 
@@ -135,9 +139,21 @@ export default function MapContainer({
     return 8;
   };
 
-  const polylinePositions = pickupCoords && destinationCoords 
+  const polylinePositions = (pickupCoords && pickupCoords.lat && pickupCoords.lng && destinationCoords && destinationCoords.lat && destinationCoords.lng)
     ? [[pickupCoords.lat, pickupCoords.lng], [destinationCoords.lat, destinationCoords.lng]]
     : [];
+
+  // Check if we have valid coordinates
+  const hasValidCoords = (pickupCoords && pickupCoords.lat && pickupCoords.lng) || (destinationCoords && destinationCoords.lat && destinationCoords.lng);
+
+  // Only render map when we have valid coordinates
+  if (!hasValidCoords) {
+    return (
+      <Box sx={{ position: 'relative', height: '400px', borderRadius: '12px', overflow: 'hidden', bgcolor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography color="text.secondary">Enter addresses to see the map</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ position: 'relative', height: '400px', borderRadius: '12px', overflow: 'hidden' }}>
@@ -145,7 +161,6 @@ export default function MapContainer({
         center={[getMapCenter().lat, getMapCenter().lng]}
         zoom={getZoomLevel()}
         style={{ height: '100%', width: '100%' }}
-        key={`${pickupCoords && pickupCoords.lat}-${pickupCoords && pickupCoords.lng}-${destinationCoords && destinationCoords.lat}-${destinationCoords && destinationCoords.lng}`}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
