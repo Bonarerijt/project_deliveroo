@@ -7,3 +7,9 @@ class WeightCategory(str, Enum):
     small = "small"
     medium = "medium"
     large = "large"
+
+class ParcelStatus(str, Enum):
+    pending = "pending"
+    in_transit = "in_transit"
+    delivered = "delivered"
+    cancelled = "cancelled"
