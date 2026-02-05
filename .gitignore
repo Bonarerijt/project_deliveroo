@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/htmlcov/
+backend/venv/
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache and coverage
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.coverage
+.pytest_cache/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*
+!.env.example
+!.env.production.template
+
+
+# Build outputs
+frontend/build/
+backend/dist/
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Database
+*.db
+*.sqlite
+
+# Testing
+coverage/
+.nyc_output/
