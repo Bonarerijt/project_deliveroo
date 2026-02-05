@@ -201,3 +201,30 @@ const AppRoutes = () => {
     </AnimatePresence>
   );
 };
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            borderRadius: '10px',
+            background: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            boxShadow: theme.shadows[4],
+          },
+        }}
+      />
+      <AuthProvider>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
