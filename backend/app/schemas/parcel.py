@@ -13,3 +13,12 @@ class ParcelStatus(str, Enum):
     in_transit = "in_transit"
     delivered = "delivered"
     cancelled = "cancelled"
+
+class ParcelBase(BaseModel):
+    pickup_address: str
+    destination_address: str
+    pickup_lat: float
+    pickup_lng: float
+    destination_lat: float
+    destination_lng: float
+    weight_category: WeightCategory
