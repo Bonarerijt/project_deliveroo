@@ -32,3 +32,17 @@ class ParcelUpdate(BaseModel):
     destination_lng: Optional[float] = None
     status: Optional[ParcelStatus] = None
     present_location: Optional[str] = None
+
+class ParcelResponse(ParcelBase):
+    id: int
+    user_id: int
+    quote_amount: float
+    status: ParcelStatus
+    present_location: Optional[str] = None
+    distance_km: Optional[float] = None
+    duration_mins: Optional[int] = None
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    
+    class Config:
+        from_attributes = True
