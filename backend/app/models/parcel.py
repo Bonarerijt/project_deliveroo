@@ -14,3 +14,10 @@ class WeightCategory(enum.Enum):
     small = "small"
     medium = "medium"
     large = "large"
+
+
+class Parcel(Base):
+    __tablename__ = "parcels"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
