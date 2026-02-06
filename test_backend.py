@@ -56,3 +56,30 @@ def test_auth():
     except Exception as e:
         print(f"❌ Login test failed: {e}")
     
+     # Test user registration
+    try:
+        register_data = {
+            'email': 'test@example.com',
+            'password': 'testpass123',
+            'full_name': 'Test User'
+        }
+        
+        response = requests.post(
+            f"{base_url}/auth/register",
+            json=register_data,
+            headers={'Content-Type': 'application/json'}
+        )
+        
+        if response.status_code == 200:
+            print("✅ User registration successful")
+        elif response.status_code == 400 and 'already registered' in response.text:
+            print("✅ User registration validation working (user exists)")
+        else:
+            print(f"❌ Registration failed: {response.status_code} - {response.text}")
+            
+    except Exception as e:
+        print(f"❌ Registration test failed: {e}")
+
+if __name__ == "__main__":
+    test_auth()
+    
