@@ -34,7 +34,7 @@ Go to Settings → Environment Variables and add:
 | `REACT_APP_API_URL` | Your backend API URL (e.g., `https://your-backend-api.onrender.com`) | Production, Preview, Development |
 | `REACT_APP_GOOGLE_MAPS_API_KEY` | Your Google Maps API key | Production, Preview, Development |
 
-**Note**: In `vercel.json`, these are referenced as `@api_url` and `@google_maps_api_key` as Vercel environment variable references.
+**Important**: Set the actual values directly in Vercel Dashboard. The environment variables will be available during build time.
 
 ### 4. Deploy
 
