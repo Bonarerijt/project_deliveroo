@@ -98,7 +98,7 @@ const ParcelDetail = () => {
       toast.success('Parcel cancelled successfully');
       fetchParcel();
     } catch (error) {
-      toast.error(error.response && error.response.data && error.response.data.detail || 'Failed to cancel parcel');
+      toast.error((error.response && error.response.data && error.response.data.detail) || 'Failed to cancel parcel');
     } finally {
       setCancelling(false);
     }
@@ -120,7 +120,7 @@ const ParcelDetail = () => {
       setNewDestination('');
       fetchParcel();
     } catch (error) {
-      toast.error(error.response && error.response.data && error.response.data.detail || 'Failed to update destination');
+      toast.error((error.response && error.response.data && error.response.data.detail) || 'Failed to update destination');
     } finally {
       setUpdatingDestination(false);
     }
@@ -391,7 +391,7 @@ const ParcelDetail = () => {
                       pickupLng={parcel.pickup_lng}
                       destLat={parcel.destination_lat}
                       destLng={parcel.destination_lng}
-                      distance={`${parcel.distance_km && parcel.distance_km.toFixed(1) || '480'} km`}
+                      distance={`${parcel.distance_km ? parcel.distance_km.toFixed(1) : '480'} km`}
                       duration={`${Math.floor((parcel.duration_mins || 390) / 60)}h ${(parcel.duration_mins || 390) % 60}m`}
                     />
                   </Paper>
@@ -473,7 +473,7 @@ const ParcelDetail = () => {
                               <ListItem>
                                 <ListItemText
                                   primary="Distance"
-                                  secondary={`${parcel.distance_km && parcel.distance_km.toFixed(1) || 'N/A'} km`}
+                                  secondary={`${parcel.distance_km ? parcel.distance_km.toFixed(1) : 'N/A'} km`}
                                 />
                               </ListItem>
                               <ListItem>

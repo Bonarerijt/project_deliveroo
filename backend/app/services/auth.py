@@ -4,7 +4,7 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+import bcrypt
 from app.database.database import get_db
 from app.models.user import User
 import os
@@ -19,15 +19,18 @@ if not SECRET_KEY:
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 def get_password_hash(password: str) -> str:
     # Truncate password to 72 bytes for bcrypt compatibility
-    return pwd_context.hash(password[:72])
+    password_bytes = password.encode('utf-8')[:72]
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    return hashed.decode('utf-8')
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     # Truncate password to 72 bytes for bcrypt compatibility
-    return pwd_context.verify(plain_password[:72], hashed_password)
+    password_bytes = plain_password.encode('utf-8')[:72]
+    hashed_bytes = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(password_bytes, hashed_bytes)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 

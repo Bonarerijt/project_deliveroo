@@ -145,7 +145,7 @@ export default function MapContainer({
         center={[getMapCenter().lat, getMapCenter().lng]}
         zoom={getZoomLevel()}
         style={{ height: '100%', width: '100%' }}
-        key={`${pickupCoords && pickupCoords.lat}-${pickupCoords && pickupCoords.lng}-${destinationCoords && destinationCoords.lat}-${destinationCoords && destinationCoords.lng}`}
+        key={`${destinationAddress}-${pickupAddress}-${Date.now()}`}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
