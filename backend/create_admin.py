@@ -30,3 +30,27 @@ def create_admin_user():
         print("✅ Admin user created successfully!")
         print("   Email: admin@deliveroo.com")
         print("   Password: admin123")
+
+        # Create regular user
+        user = User(
+            email="user@deliveroo.com",
+            hashed_password=get_password_hash("user123"),
+            full_name="Regular User"
+        )
+        
+        db.add(user)
+        db.commit()
+        print("✅ Regular user created successfully!")
+        print("   Email: user@deliveroo.com")
+        print("   Password: user123")
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
+        db.rollback()
+    finally:
+        db.close()
+
+if __name__ == "__main__":
+    create_admin_user()
