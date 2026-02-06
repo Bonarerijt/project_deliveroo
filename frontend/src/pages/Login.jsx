@@ -58,7 +58,7 @@ const Login = () => {
         }
       }
     } catch (err) {
-      setError(err.response && err.response.data && err.response.data.detail || 'Login failed. Please check your credentials.');
+      setError((err.response && err.response.data && err.response.data.detail) || 'Login failed. Please check your credentials.');
       toast.error('Login failed');
     } finally {
       setLoading(false);

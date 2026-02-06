@@ -23,7 +23,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    full_name: '',
+    username: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await api.post('/auth/register', formData);
+      await api.post('/auth/register', formData);
       toast.success('Account created successfully!');
       
       // Auto-login after registration
@@ -62,7 +62,7 @@ const Register = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response && err.response.data && err.response.data.detail || 'Registration failed. Please try again.');
+      setError((err.response && err.response.data && err.response.data.detail) || 'Registration failed. Please try again.');
       toast.error('Registration failed');
     } finally {
       setLoading(false);
@@ -126,9 +126,9 @@ const Register = () => {
             <form onSubmit={handleSubmit}>
               <TextField
                 fullWidth
-                label="Full Name"
-                name="full_name"
-                value={formData.full_name}
+                label="Username"
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
                 margin="normal"
                 required
