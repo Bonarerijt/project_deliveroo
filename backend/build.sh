@@ -7,5 +7,5 @@ pip install -r requirements.txt
 # Initialize database tables
 python -c "from app.database.database import Base, engine; Base.metadata.create_all(bind=engine)"
 
-# Create admin user
-python create_admin.py
+# Create demo users (admin and regular user)
+python create_demo_users.py
