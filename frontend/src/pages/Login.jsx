@@ -341,7 +341,7 @@ const Login = () => {
                           Email: user@deliveroo.com
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          Password: user123
+                          Password: user000
                         </Typography>
                       </Box>
                     </Paper>
