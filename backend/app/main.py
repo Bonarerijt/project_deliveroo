@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from app.database.database import engine, Base
+from app.database.database import engine, Base, SessionLocal
+from app.models.user import User
 from app.routers import auth, parcels, admin
 from app.middleware.security import SecurityHeadersMiddleware, RateLimitMiddleware
 import os
@@ -55,6 +56,20 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(parcels.router)
 app.include_router(admin.router)
+
+
+@app.on_event("startup")
+def ensure_admin_user_role():
+    """Ensure the default admin account keeps admin permissions."""
+    db = SessionLocal()
+    try:
+        admin_user = db.query(User).filter(User.email == "admin@deliveroo.com").first()
+        if admin_user and (not admin_user.is_admin or not admin_user.is_active):
+            admin_user.is_admin = True
+            admin_user.is_active = True
+            db.commit()
+    finally:
+        db.close()
 
 @app.get("/")
 def read_root():
