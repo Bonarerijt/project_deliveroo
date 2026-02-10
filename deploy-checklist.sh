@@ -1,0 +1,56 @@
+#!/bin/bash
+
+echo "🚀 Deliveroo Deployment Checklist"
+echo "=================================="
+echo ""
+
+echo "✅ Files Created:"
+echo "  - backend/runtime.txt (Python 3.11.9)"
+echo "  - backend/build.sh (Build script)"
+echo "  - backend/render.yaml (Render config)"
+echo "  - RENDER_DEPLOY.md (Full guide)"
+echo ""
+
+echo "✅ Fixes Applied:"
+echo "  - Updated psycopg2-binary to 2.9.10"
+echo "  - Fixed DATABASE_URL format for Render"
+echo "  - Updated CORS for Vercel domains"
+echo ""
+
+echo "📋 Next Steps:"
+echo ""
+echo "1. COMMIT & PUSH TO GITHUB:"
+echo "   git add ."
+echo "   git commit -m 'Fix Render deployment'"
+echo "   git push origin main"
+echo ""
+
+echo "2. DEPLOY BACKEND (Render):"
+echo "   - Go to https://dashboard.render.com"
+echo "   - New + → PostgreSQL (create database first)"
+echo "   - New + → Web Service"
+echo "   - Root Directory: backend"
+echo "   - Build Command: ./build.sh"
+echo "   - Start Command: uvicorn main:app --host 0.0.0.0 --port 10000"
+echo "   - Add environment variables (see RENDER_DEPLOY.md)"
+echo ""
+
+echo "3. DEPLOY FRONTEND (Vercel):"
+echo "   cd frontend"
+echo "   vercel --prod"
+echo "   # Add env: REACT_APP_API_URL=https://your-backend.onrender.com"
+echo ""
+
+echo "4. UPDATE BACKEND:"
+echo "   - Update FRONTEND_URL in Render to your Vercel URL"
+echo "   - Redeploy backend"
+echo ""
+
+echo "5. INITIALIZE DATABASE:"
+echo "   - Use Render Shell or run locally:"
+echo "   export DATABASE_URL='your-render-db-url'"
+echo "   python backend/init_database.py"
+echo ""
+
+echo "📖 Full Guide: Read RENDER_DEPLOY.md"
+echo ""

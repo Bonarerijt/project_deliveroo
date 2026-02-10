@@ -9,7 +9,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Alert,
   Card,
   CardContent,
   IconButton,
@@ -131,7 +130,7 @@ const ParcelCreate = () => {
       toast.success('Parcel created successfully!');
       navigate(`/parcel/${response.data.id}`);
     } catch (error) {
-      toast.error(error.response && error.response.data && error.response.data.detail || 'Failed to create parcel');
+      toast.error((error.response && error.response.data && error.response.data.detail) || 'Failed to create parcel');
     } finally {
       setLoading(false);
     }
@@ -365,7 +364,7 @@ const ParcelCreate = () => {
                                   Weight Category:
                                 </Typography>
                                 <Typography variant="body1" fontWeight={500}>
-                                  {weightCategories.find(w => w.value === formData.weight_category) && weightCategories.find(w => w.value === formData.weight_category).label}
+                                  {weightCategories.find(w => w.value === formData.weight_category)?.label}
                                 </Typography>
                               </Box>
                             </Box>
@@ -400,7 +399,7 @@ const ParcelCreate = () => {
                         </Box>
                         
                         <Typography variant="h1" fontWeight={800} color="primary.main" sx={{ mb: 2 }}>
-                          ${quote && quote.toFixed(2)}
+                          ${quote?.toFixed(2)}
                         </Typography>
                         
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

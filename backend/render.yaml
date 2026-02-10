@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: deliveroo-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "./build.sh"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        fromDatabase:
+          name: deliveroo-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: ENVIRONMENT
+        value: production
+      - key: FRONTEND_URL
+        value: https://your-frontend.vercel.app
+
+databases:
+  - name: deliveroo-db
+    databaseName: deliveroo
+    user: deliveroo
+    plan: free
